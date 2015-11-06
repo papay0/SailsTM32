@@ -1,7 +1,7 @@
+#include "stm32f10x.h"
+
 #ifndef __TIMER_1234_H
 #define __TIMER_1234_H
-
-#include "stm32f10x.h"
 
 /** 
 * Configure les Timers 1, 2, 3 et 4
@@ -14,7 +14,7 @@
 float Timer_1234_Init(TIM_TypeDef* Tim, float Period_us);
 
 /**
- * Retourne vrai si le timer a récemment subi un débordement.
+ * @brief Retourne vrai si le timer a récemment subi un débordement.
  * Si c'est le cas, les prochains appels retourneront false jusqu'au prochain débordement.
  * @param Tim Pointeur vers le jeu de registres (TIM_TypeDef*) du timer considéré.
  */
