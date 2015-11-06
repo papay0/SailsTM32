@@ -14,7 +14,6 @@
 #include "clock.h"
 #include "timer_1234.h"
 #include "adc.h"
-#include "pwm.h"
 
 //TODO :
 // appréciez la déclaration de GPIOB ligne 1409 :-) la valeur numérique GPIOB_BASE (ligne 1316)
@@ -29,7 +28,7 @@
 // 
 // Observez la déclaration de la structure GPIO_Typedef ligne 1000 à 1010
 // Sachant que GPIOB->CRH est unbe notation simplifiée de (*GPIOB).CRH, le terme GPIOB->CRH est-il
-// 	a) un registre natif
+//     a) un registre natif
 //  b) un pointeur natif
 //  c) une macro donnant un registre
 //  d) une macro donnant un pointeur
@@ -37,83 +36,100 @@
 
 int TEST_ADC(void)
 {
-	Port_IO_Init_Input(GPIOA, 1);
-	Init_ADC_Single_Conv(ADC1, 1);
-	u16 res;
-	while (1)
-	{
-		
-		res = ADC_Single_Conv(ADC1);
-		
-	}
-	
-	return 0;
+    Port_IO_Init_Input(GPIOA, 1);
+    Init_ADC_Single_Conv(ADC1, 1);
+    u16 res;
+    while (1)
+    {
+        
+        res = ADC_Single_Conv(ADC1);
+        
+    }
+    
+    return 0;
 }
 
 void On_IT_Test_PWM(void)
 {
-	int a = 4;
+    
 }
 
 int TEST_PWM(void)
 {
-	Timer_1234_Init(TIM3, 10);
-	Timer_Active_IT(TIM3, 10, On_IT_Test_PWM);
-	Pwm_Configure(TIM2, 3, 100);
-	Pwm_Cyclic_RateF(TIM2, 3, 0.30);
-	while(1)
-	{
-		int a = 55;
-		a++;
-	}
+    Timer_1234_Init(TIM3, 10);
+    Timer_Active_IT(TIM3, 10, On_IT_Test_PWM);
+    Pwm_Configure(TIM2, 3, 100);
+    Pwm_Cyclic_RateF(TIM2, 3, 0.30);
+    while(1)
+    {
+        int a = 55;
+        a++;
+    }
 }
-	
+
+void On_Capture(uint16_t val)
+{
+    
+    
+}
+
+int TEST_Capture(void)
+{
+    Port_IO_Init_Input(GPIOA, 6);
+    Timer_1234_Init(TIM3, 10);
+    Timer_Capture_Configure(TIM3, 1, 0);
+    Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
+    int a = 4;
+    while(1) { }
+}
+    
 
 void On_IT(void)
 {
-	Port_IO_Blink(GPIOB, 9);
+    Port_IO_Blink(GPIOB, 9);
 }
 
 int TEST_TIMER(void)
 {
- 	// Cette ligne valide les horloges de quelques périphériques, pour le moment ignorez-la 
-	// mais CONSERVEZ CETTE LIGNE EN DEBUT DE PROGRAMME !
- 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;
-	RCC->APB1ENR|=  RCC_APB1ENR_TIM2EN;
-	CLOCK_Configure();
-	Port_IO_Init_Output(GPIOB, 9);
-	Timer_1234_Init(TIM2, 500000);
-	Timer_Active_IT(TIM2, 1, On_IT);
-	while(1) 
-	{
-		
-	}
-	
-	return 0;
+     // Cette ligne valide les horloges de quelques périphériques, pour le moment ignorez-la 
+    // mais CONSERVEZ CETTE LIGNE EN DEBUT DE PROGRAMME !
+     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;
+    RCC->APB1ENR|=  RCC_APB1ENR_TIM2EN;
+    CLOCK_Configure();
+    Port_IO_Init_Output(GPIOB, 9);
+    Timer_1234_Init(TIM2, 500000);
+    Timer_Active_IT(TIM2, 1, On_IT);
+    while(1) 
+    {
+        
+    }
+    
+    return 0;
 }
 
 
 int TEST_GPIO(void)
-{	
- 	// Cette ligne valide les horloges de quelques périphériques, pour le moment ignorez-la 
-	// mais CONSERVEZ CETTE LIGNE EN DEBUT DE PROGRAMME !
- 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;
-	Port_IO_Init_Output(GPIOB, 10);
-	Port_IO_Init_Output(GPIOB, 9);
-	while(1)
-	{		
-		// Allume la LED 10 si le bouton sur PA0 est appuyé.
-		uint32_t bitIDR = Port_IO_Read(GPIOA, 0);
-		Port_IO_SetValue(GPIOB, 10, !bitIDR);
-		Port_IO_Blink(GPIOB, 9);
-	}
+{    
+     // Cette ligne valide les horloges de quelques périphériques, pour le moment ignorez-la 
+    // mais CONSERVEZ CETTE LIGNE EN DEBUT DE PROGRAMME !
+     RCC->APB2ENR |= RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPBEN | RCC_APB2ENR_IOPCEN;
+    Port_IO_Init_Output(GPIOB, 10);
+    Port_IO_Init_Output(GPIOB, 9);
+    while(1)
+    {        
+        // Allume la LED 10 si le bouton sur PA0 est appuyé.
+        uint32_t bitIDR = Port_IO_Read(GPIOA, 0);
+        Port_IO_SetValue(GPIOB, 10, !bitIDR);
+        Port_IO_Blink(GPIOB, 9);
+    }
 
-	return 0;
+    return 0;
 }
 
 int main (void)
+
 {
-	CLOCK_Configure();
-	TEST_PWM();
-	return 0;
+    CLOCK_Configure();
+    TEST_Capture();
+    return 0;
 }
