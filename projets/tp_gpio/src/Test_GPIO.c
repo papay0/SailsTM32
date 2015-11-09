@@ -41,12 +41,9 @@ int TEST_ADC(void)
 	u16 res;
 	while (1)
 	{
-		
 		res = ADC_Single_Conv(ADC1);
-		
 	}
-	
-	return 0;
+	return res;
 }
 
 void On_IT_Test_PWM(void)
@@ -56,7 +53,7 @@ void On_IT_Test_PWM(void)
 
 int TEST_PWM(void)
 {
-	int b = Timer_1234_Init(TIM3, 10);
+	Timer_1234_Init(TIM3, 10);
 	Timer_Active_IT(TIM3, 10, On_IT_Test_PWM);
 	Pwm_Configure(TIM2, 3, 100);
 	Pwm_Cyclic_RateF(TIM2, 3, 0.30);
@@ -69,32 +66,22 @@ int TEST_PWM(void)
 
 void On_Capture(uint16_t val)
 {
-	int a = val;
-	int b = val * (TIM3->PSC+1) / 72;
-	int c = TIM3->ARR;
-	int d = TIM3->CCR1;
-	int e = TIM3->CCR2;
+
+}
+
+void On_Capture2(uint16_t val)
+{
+	
 }
 
 int TEST_Capture(void)
 {
-	int testCapture1 = 0;
-	if(testCapture1)
-	{
-		Port_IO_Init_Input(GPIOA, 6);
-		int b = Timer_1234_Init(TIM3, 1000000);
-		Timer_Capture_Configure(TIM3, 1, 0);
-		Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
-		int a = 4;
-	}
-	else
-	{
-		Port_IO_Init_Input(GPIOA, 6);
-		int b = Timer_1234_Init(TIM3, 1000000);
-		Timer_Capture_Configure_PWM(TIM3, 1);
-		Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
-		int a = 4;
-	}
+
+	Port_IO_Init_Input(GPIOB, 6);
+	Timer_1234_Init(TIM4, 100000);
+	Timer_Capture_Configure_PWM(TIM4, 1);
+	Timer_Capture_Enable_IT(TIM4, 2, On_Capture2);
+	
 	while(1) { }
 }
 	
