@@ -322,7 +322,7 @@
             <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\pilotes\pwm\pwm.c</FilePath>
+              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -667,7 +667,7 @@
             <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\pilotes\pwm\pwm.c</FilePath>
+              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
             </File>
           </Files>
         </Group>
