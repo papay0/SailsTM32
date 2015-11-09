@@ -6,6 +6,7 @@
 */
 /*int a = 0;
 int first_capture = 1;
+
 void On_Capture(uint16_t val)
 {
 	if (first_capture == 1){
@@ -24,6 +25,7 @@ void On_Capture(uint16_t val)
 		a += 360;
 		a %= 360;
 	}
+
 }
 int TEST_Capture(void)
 {
@@ -34,7 +36,21 @@ int TEST_Capture(void)
 	Timer_Capture_Configure(TIM3, 1, 0);
 	Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
 while(1) { }
+
 }
+
+
+int TEST_Capture(void)
+{
+	Port_IO_Init_Input(GPIOA, 6);
+	Port_IO_Init_Input(GPIOA, 7);
+	Port_IO_Init_Input(GPIOA, 5);
+	Timer_1234_Init(TIM3, 10);
+	Timer_Capture_Configure(TIM3, 1, 0);
+	Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
+while(1) { }
+}
+
 */
 
 #include "girouette.h"
