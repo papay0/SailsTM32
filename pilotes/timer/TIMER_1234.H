@@ -45,7 +45,6 @@ int Pwm_Cyclic_RateF(TIM_TypeDef* Tim, int channel, float rate);
  * @param Tim timer sur lequel configurer la pwm capture.
  * @param channel channel sur lequel "brancher" la capture.
 		  /!\ channel_in doit valoir 1 ou 2 pour pouvoir utiliser un capture en PWM !!
-		  
  */
 int Timer_Capture_Configure_PWM(TIM_TypeDef* Tim, int channel);
 /**
@@ -62,7 +61,8 @@ int Timer_Capture_Configure(TIM_TypeDef* Tim, int channel, int polarity);
  * @brief Active les interruptions pour la capture pour un channel et un timer donné.
  * @param Tim timer sur lequel configurer l'interruption.
  * @param channel canal de capture sur lequel configurer l'interruption.
- * @param it_function fonction à appeler lors de l'interruption.
+ * @param it_function fonction à appeler lors de l'interruption. Le paramètre de cette 
+ * fonction correspond à la période en microsecondes.
  */
 int Timer_Capture_Enable_IT(TIM_TypeDef * Tim, int channel, void (*it_function) (uint16_t));
 

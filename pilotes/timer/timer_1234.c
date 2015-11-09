@@ -117,12 +117,12 @@ uint16_t Pwm_Configure(TIM_TypeDef* Tim, int channel, float period_us)
     if(channel <= 0 || channel > 4)
         return -1;
     
-	// Configuration des GPÏO en alternate function.
+		// Configuration des GPÏO en alternate function.
     if(Configure_Gpio(Tim))
         return -1;
 	    
     // Initialise le timer.
-	Timer_1234_Init(Tim, period_us);
+		Timer_1234_Init(Tim, period_us);
     
     if(channel == 1)
     {
@@ -244,25 +244,25 @@ int _cc_select_active_polarity(TIM_TypeDef * Tim, int channel, int polarity)
 	switch(channel)
 	{
 		case 1:
-			if(polarity)
+			if(!polarity)
 				Tim->CCER &= ~TIM_CCER_CC1P;
 			else
 				Tim->CCER |= TIM_CCER_CC1P;
 			return 0;
 		case 2:
-			if(polarity)
+			if(!polarity)
 				Tim->CCER &= ~TIM_CCER_CC2P;
 			else
 				Tim->CCER |= TIM_CCER_CC2P;
 			return 0;
 		case 3:
-			if(polarity)
+			if(!polarity)
 				Tim->CCER &= ~TIM_CCER_CC3P;
 			else
 				Tim->CCER |= TIM_CCER_CC3P;
 			return 0;
 		case 4:
-			if(polarity)
+			if(!polarity)
 				Tim->CCER &= ~TIM_CCER_CC4P;
 			else
 				Tim->CCER |= TIM_CCER_CC4P;
@@ -375,14 +375,17 @@ int Timer_Capture_Configure_PWM(TIM_TypeDef* Tim, int channel)
 {
 	if(channel > 2)
 		return -1;
-	
-	// Mode input : mappé sur le channel.
+	int otherChannel = ((channel - 1) ^ 1)+1;
+	// Mode input : ch 1 et ch 2 mappés sur le Channel 1.
 	_cc_set_ccmr_ccxs(Tim, channel, 0, 1);
+	_cc_set_ccmr_ccxs(Tim, otherChannel, 1, 0);
 	
-	// front descendant
-	_cc_select_active_polarity(Tim, channel, 1);
+	// Ch 1 actif sur front montant
+	_cc_select_active_polarity(Tim, channel, 0);
+	// Ch 2 actif sur front descendant
+	_cc_select_active_polarity(Tim, otherChannel, 1);
 	
-	// Trigger selection TI1FP1 / 2.
+	// Trigger selection TI1FP1.
 	if(channel == 1)
 		_cc_set_smcr_ts(Tim, 1, 0, 1);
 	else if(channel == 2)
@@ -393,6 +396,7 @@ int Timer_Capture_Configure_PWM(TIM_TypeDef* Tim, int channel)
 	
 	// Active les channel de CC
 	_cc_channel_enable(Tim, channel);
+	_cc_channel_enable(Tim, otherChannel);
 	
 	return 0;
 }
@@ -436,12 +440,10 @@ void _timer_handle_it(TIM_TypeDef * Tim)
 	}
 }
 
-#define ToMicrosec(t)  t
-// (Tim->PSC+1) * (t+1) / 72
+#define ToMicrosec(t)  (Tim->PSC+1) * (t+1) / 72
 // Fonction gérant les it de capture compare.
 void _cc_handle_it(TIM_TypeDef * Tim)
 {
-
 	if(Tim->SR & TIM_SR_CC1IF)
 	{
 		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][0], ToMicrosec(Tim->CCR1));
