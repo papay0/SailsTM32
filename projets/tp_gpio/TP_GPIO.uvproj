@@ -73,7 +73,7 @@
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
             <UserProg1Name>"C:\Program Files (x86)\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" release\*.elf</UserProg1Name>
             <UserProg2Name></UserProg2Name>
@@ -145,7 +145,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>..\..\Debug_Fonction.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -318,11 +318,6 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../pilotes/adc/adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -663,11 +658,6 @@
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../../pilotes/adc/adc.c</FilePath>
-            </File>
-            <File>
-              <FileName>pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
             </File>
           </Files>
         </Group>
