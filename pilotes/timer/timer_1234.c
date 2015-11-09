@@ -54,7 +54,7 @@ float Timer_1234_Init(TIM_TypeDef* Tim, float Period_us)
 	
 	_timer_1234_enable(Tim);
 	// Met le bit CEN à 1 (autorise le comptage de l'horloge) 
-	Tim->CR1 |= 1; 
+	Tim->CR1 |= 1;
 	
 	// Période de l'entrée de l'horloge.
 	float tin = 1.0 / 72.0;
@@ -436,13 +436,15 @@ void _timer_handle_it(TIM_TypeDef * Tim)
 	}
 }
 
+#define ToMicrosec(t)  t
+// (Tim->PSC+1) * (t+1) / 72
 // Fonction gérant les it de capture compare.
 void _cc_handle_it(TIM_TypeDef * Tim)
 {
-	#define ToMicrosec(t) (t * (Tim->PSC+1) * (Tim->ARR+1) / 72);
+
 	if(Tim->SR & TIM_SR_CC1IF)
 	{
-		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][0], ToMicrosec(Tim->CCR1) );
+		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][0], ToMicrosec(Tim->CCR1));
 		Tim->SR &= ~TIM_SR_CC1IF;
 	}
 	
@@ -454,13 +456,13 @@ void _cc_handle_it(TIM_TypeDef * Tim)
 	
 	if(Tim->SR & TIM_SR_CC3IF)
 	{
-		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][2], Tim->CCR3);
+		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][2], ToMicrosec(Tim->CCR3));
 		Tim->SR &= ~TIM_SR_CC2IF;
 	}
 	
 	if(Tim->SR & TIM_SR_CC4IF)
 	{
-		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][3], Tim->CCR4);
+		EXECA(Capture_Function[_timer_1234_id_base0(Tim)][3], ToMicrosec(Tim->CCR4));
 		Tim->SR &= ~TIM_SR_CC3IF;
 	}
 	
