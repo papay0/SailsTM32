@@ -97,19 +97,32 @@ int Timer_1234_Poll(TIM_TypeDef* Tim)
  * 					PARTIE PWM
  * 
  * -----------------------------------------------------*/
-int Configure_Gpio(TIM_TypeDef* Tim)
+int Configure_Gpio(TIM_TypeDef* Tim, int channel)
 {
     if (Tim == TIM1)
         return -1;
     
 	if (Tim == TIM2)
-		Port_IO_Init_Output_Alt(GPIOA, 0);
+	{
+		Port_IO_Init_Output_Alt(GPIOA, channel-1);
+	}
 	else if (Tim == TIM3)
-		Port_IO_Init_Output_Alt(GPIOA, 6);
+	{
+		if(channel == 1)
+			Port_IO_Init_Output_Alt(GPIOA, 6);
+		else if(channel == 2)
+			Port_IO_Init_Output_Alt(GPIOA, 7);
+		else if (channel == 3)
+			Port_IO_Init_Output_Alt(GPIOB, 0);
+		else if (channel == 4)
+			Port_IO_Init_Output_Alt(GPIOB, 1);
+			
+	}
 	else if (Tim == TIM4)
-		Port_IO_Init_Output_Alt(GPIOB, 6);
-    
-    return 0;
+	{
+		Port_IO_Init_Output_Alt(GPIOB, 5+channel);
+	}
+  return 0;
 }
 
 uint16_t Pwm_Configure(TIM_TypeDef* Tim, int channel, float period_us)
@@ -118,7 +131,7 @@ uint16_t Pwm_Configure(TIM_TypeDef* Tim, int channel, float period_us)
         return -1;
     
 		// Configuration des GPÏO en alternate function.
-    if(Configure_Gpio(Tim))
+    if(Configure_Gpio(Tim, channel))
         return -1;
 	    
     // Initialise le timer.
@@ -375,6 +388,7 @@ int Timer_Capture_Configure_PWM(TIM_TypeDef* Tim, int channel)
 {
 	if(channel > 2)
 		return -1;
+	
 	int otherChannel = ((channel - 1) ^ 1)+1;
 	// Mode input : ch 1 et ch 2 mappés sur le Channel 1.
 	_cc_set_ccmr_ccxs(Tim, channel, 0, 1);

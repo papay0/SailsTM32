@@ -73,7 +73,7 @@
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>1</RunUserProg1>
+            <RunUserProg1>0</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
             <UserProg1Name>"C:\Program Files (x86)\CodeSourcery\Sourcery G++ Lite\bin\arm-none-eabi-size.exe" release\*.elf</UserProg1Name>
             <UserProg2Name></UserProg2Name>
@@ -145,7 +145,7 @@
             <CpuDllArguments></CpuDllArguments>
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
+            <InitializationFile>..\..\Debug_Fonction.ini</InitializationFile>
           </SimDlls>
           <TargetDlls>
             <CpuDll></CpuDll>
@@ -266,7 +266,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\pilotes\clock;..\..\sys;.\src;..\..\pilotes\gpio;..\..\pilotes\timer;..\..\pilotes\adc;..\..\pilotes\pwm</IncludePath>
+              <IncludePath>..\..\pilotes\clock;..\..\sys;.\src;..\..\pilotes\gpio;..\..\pilotes\timer;..\..\pilotes\adc;..\..\pilotes\pwm;..\..\services\remote_fm;..\..\services\girouette;..\..\services\moteur_cc;..\..\services\usart;..\..\pilotes\usart</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -320,9 +320,9 @@
               <FilePath>../../pilotes/adc/adc.c</FilePath>
             </File>
             <File>
-              <FileName>pwm.c</FileName>
+              <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
+              <FilePath>../../pilotes/usart/usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -330,9 +330,9 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>Test_GPIO.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src/Test_GPIO.c</FilePath>
+              <FilePath>.\src/main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -347,7 +347,34 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>New Group</GroupName>
+          <GroupName>services</GroupName>
+          <Files>
+            <File>
+              <FileName>girouette_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/girouette/girouette_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>moteur_cc_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/moteur_cc/moteur_cc_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>remote_fn_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/remote_fm/remote_fn_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_voile_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/servo_voile/servo_voile_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/usart/usart_service.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>
@@ -611,7 +638,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\pilotes\clock;.\src;..\..\pilotes\gpio;..\..\pilotes\adc;..\..\pilotes\timer</IncludePath>
+              <IncludePath>..\..\pilotes\clock;.\src;..\..\pilotes\gpio;..\..\pilotes\adc;..\..\pilotes\timer;..\..\services\remote_fm;..\..\services\moteur_cc;..\..\services\servo_voile;..\..\services\girouette;..\..\pilotes\usart;..\..\services\usart</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -665,9 +692,9 @@
               <FilePath>../../pilotes/adc/adc.c</FilePath>
             </File>
             <File>
-              <FileName>pwm.c</FileName>
+              <FileName>usart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../../pilotes/pwm/pwm.c</FilePath>
+              <FilePath>../../pilotes/usart/usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -675,9 +702,9 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>Test_GPIO.c</FileName>
+              <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src/Test_GPIO.c</FilePath>
+              <FilePath>.\src/main.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -692,7 +719,34 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>New Group</GroupName>
+          <GroupName>services</GroupName>
+          <Files>
+            <File>
+              <FileName>girouette_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/girouette/girouette_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>moteur_cc_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/moteur_cc/moteur_cc_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>remote_fn_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/remote_fm/remote_fn_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_voile_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/servo_voile/servo_voile_service.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart_service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../../services/usart/usart_service.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>

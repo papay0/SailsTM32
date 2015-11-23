@@ -1,64 +1,22 @@
-/*#include "stm32f10x.h" // Clic droit sur stm32f10X.h et faire "open document" pour ouvrir le fichier
-#include "gpio.h"
+#include "moteur_cc.h"
+#include "remote_fn.h"
 #include "clock.h"
-#include "timer_1234.h"
-#include "adc.h"
-*/
-/*int a = 0;
-int first_capture = 1;
-
-void On_Capture(uint16_t val)
+/* Fichier de test EN REEL du moteur + télécommande FM.
+   Ce test n'est pas simulable !!! */
+void callback(uint16_t percent)
 {
-	if (first_capture == 1){
-		int index = Port_IO_Read(GPIOA, 5);
-		if (index == 1) {
-			a = 0;
-			first_capture = 0;
-		}
-	} else {
-		int inc = Port_IO_Read(GPIOA, 7);
-		if (inc == 0){
-			a++;
-		} else {
-			a--;
-		}
-		a += 360;
-		a %= 360;
-	}
-
-}
-int TEST_Capture(void)
-{
-	Port_IO_Init_Input(GPIOA, 6);
-	Port_IO_Init_Input(GPIOA, 7);
-	Port_IO_Init_Input(GPIOA, 5);
-	Timer_1234_Init(TIM3, 10);
-	Timer_Capture_Configure(TIM3, 1, 0);
-	Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
-while(1) { }
-
+	int16_t c = percent;
+	Service_Moteur_CC_Commande(c);
 }
 
-
-int TEST_Capture(void)
-{
-	Port_IO_Init_Input(GPIOA, 6);
-	Port_IO_Init_Input(GPIOA, 7);
-	Port_IO_Init_Input(GPIOA, 5);
-	Timer_1234_Init(TIM3, 10);
-	Timer_Capture_Configure(TIM3, 1, 0);
-	Timer_Capture_Enable_IT(TIM3, 1, On_Capture);
-while(1) { }
-}
-
-*/
-
-#include "girouette.h"
-
-int main (void)
+int main()
 {
 	CLOCK_Configure();
-	Init_Girouette();
-	while (1){}
+	Service_Moteur_CC_Init();
+	Service_FM_Init();
+	Service_FM_Enable_IT(callback);
+  
+	/*Moteur_CC_Commande(-50);*/
+	while(1) { }
 	return 0;
 }

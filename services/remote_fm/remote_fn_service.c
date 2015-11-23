@@ -1,4 +1,4 @@
-#include "remote_fn.h"
+#include "remote_fn_service.h"
 
 uint16_t _lastRecord;
 void (*_captureFunction) (uint16_t);
@@ -8,10 +8,17 @@ void (*_captureFunction) (uint16_t);
  */
 int _toPercent(int val)
 {
-	return (val - 1500) / 5;
+	return 14 * (val - 1500) / (5*10) ;
 }
 
-/* Function callback appelée lors d'une capture. */
+/* TODO DELETE */
+void _onCapture2(uint16_t val) 
+{ 
+
+}
+
+/* Function callback appelée lors d'une capture.
+   NE MARCHE PAS EN SIMU !!*/
 void _onCapture(uint16_t val)
 {
 	// Enregistre la dernière valeur
@@ -21,22 +28,29 @@ void _onCapture(uint16_t val)
 		_captureFunction(_lastRecord);
 }
 
-void FM_Service_Init()
+void Service_FM_Init()
 {
 	Port_IO_Init_Input(GPIOB, 6);
-	Timer_1234_Init(TIM4, 100000);
+	// Timer_1234_Init(TIM4, 100000);  
+	Timer_1234_Init(TIM4, 20000);
 	Timer_Capture_Configure_PWM(TIM4, 1);
+	Timer_Capture_Enable_IT(TIM4, 1, _onCapture2);
 	Timer_Capture_Enable_IT(TIM4, 2, _onCapture);
+	
+	/*Port_IO_Init_Input(GPIOA, 6);
+	Timer_1234_Init(TIM3, 1000000);
+	Timer_Capture_Configure_PWM(TIM3, 1);
+	Timer_Capture_Enable_IT(TIM3, 2, _onCapture);*/
 	_captureFunction = 0;
 	_lastRecord = 0;
 }
 
-void FM_Service_Enable_IT(void (*Callback) (uint16_t))
+void Service_FM_Enable_IT(void (*Callback) (uint16_t))
 {
 	_captureFunction = Callback;
 }
 
-int FM_Service_GetValue()
+int Service_FM_GetValue()
 {
 	return _lastRecord;
 }
